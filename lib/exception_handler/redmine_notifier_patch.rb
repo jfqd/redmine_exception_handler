@@ -4,7 +4,8 @@ module ExceptionHandler
       target.send(:extend, ClassMethods)
       target.class_eval do
         class << self
-          alias_method_chain :notify_exception, :database
+          alias_method :notify_exception_without_database, :notify_exception
+          alias_method :notify_exception, :notify_exception_with_database
         end
       end
     end
