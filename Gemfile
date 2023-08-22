@@ -1,1 +1,1 @@
-gem 'exception_notification', '~> 4.0'
+gem 'exception_notification', '~> 4.5'

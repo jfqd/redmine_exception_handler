@@ -4,8 +4,8 @@ Redmine::Plugin.register :redmine_exception_handler do
   name 'Redmine Exception Handler plugin'
   author 'Eric Davis'
   description 'Send emails when exceptions occur in Redmine.'
-  version ExceptionHandler::VERSION.to_s
-  requires_redmine :version_or_higher => '4.0.0'
+  version '3.0.0'
+  requires_redmine :version_or_higher => '5.0.0'
 
   settings :default => {
     'exception_handler_recipients' => 'you@example.com, another@example.com',
@@ -18,9 +18,11 @@ end
 
 require_dependency 'exception_notification'
 require_dependency 'exception_notifier'
-ExceptionNotifier.send(:include, ExceptionHandler::RedmineNotifierPatch)
 
-RedmineApp::Application.config.middleware.use ExceptionNotification::Rack,
-  :email => {
-    :sections => %w(request session environment backtrace)
-  }
+class << ExceptionNotifier
+  prepend ExceptionHandler::RedmineNotifierPatch
+end
+
+# include middleware in RedmineApp::Application directly!
+# RedmineApp::Application.config.middleware.use ::ExceptionNotification::Rack,
+#   email: { sections: %w(request session environment backtrace) }

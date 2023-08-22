@@ -16,9 +16,10 @@ Install
 1. Follow the Redmine plugin installation steps at: [http://www.redmine.org/wiki/redmine/Plugins](http://www.redmine.org/wiki/redmine/Plugins)
    Make sure the plugin is installed to `plugins/redmine_exception_handler`
 2. Run bundle install
-3. Login to Redmine as an Administrator
-4. Setup your mail settings in the Plugin settings panel
-5. Test your settings using the "Test settings" link
+3. Add the middleware to RedmineApp::Application like: config.middleware.use ::ExceptionNotification::Rack, email: { sections: %w(request session environment backtrace) } 
+4. Login to Redmine as an Administrator
+5. Setup your mail settings in the Plugin settings panel
+6. Test your settings using the "Test settings" link
 
 License
 -------
